@@ -10,4 +10,5 @@ Basta colocar sua pasta de fontes na pasta *input* e rodar o comando abaixo:
 python3 fixfor.py
 ```
 
-#### Não se preucupe, toda a estrutura do seu projeto será mantida e só os arquivos .prw serão afetados
+#### Não se preucupe, a estrutura dos arquivos na pasta Output será idêntica à da pasta Input
+#### Somente os arquivos .prw serão afetados
