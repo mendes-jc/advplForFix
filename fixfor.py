@@ -1,13 +1,15 @@
 import re
 import os
 
-thisdir = os.getcwd()+'/input'
+inputDir = os.getcwd()+'/input'
 
-for r, d, f in os.walk(thisdir):
+if 'output' not in os.listdir('.'):
+    os.mkdir('output')
+
+for r, d, f in os.walk(inputDir):
     for file in f:
         if ".prw" in file.lower():
             fileName = os.path.join(r, file)
-            print(fileName)
             file = open(fileName, 'r', encoding='windows-1252')
 
             fl = file.readlines()
@@ -21,7 +23,8 @@ for r, d, f in os.walk(thisdir):
                     newGroup.append(line)
                 else:
                     newGroup.append(line)
-
+            groups.append(newGroup)
+            
             for group in groups:
                 textGroup = ''.join(group)
                 for line in group:
@@ -29,9 +32,16 @@ for r, d, f in os.walk(thisdir):
                     if match:
                         if not re.search(fr'(?<=local\s){match[0]}', textGroup.lower()):
                             group[0] += 'local '+match[0]+'\n'
-            
-            finalFile = ''.join(''.join(group) for group in groups)
-
-            final = open(fileName.replace('/input/', '/output/'), 'w+', encoding='windows-1252')
-            final.write(finalFile)
     
+            finalText = ''.join(''.join(group) for group in groups)
+            
+            #Cria a estrutura de pastas na pasta output, similar à input
+            outputSimilar = r.replace('/input/', '/output/')
+            if not os.path.exists(outputSimilar):
+                os.makedirs(outputSimilar)
+
+            #Abre o arquivo de output
+            final = open(fileName.replace('/input/', '/output/'), 'w+', encoding='windows-1252')
+            
+            #Escreve o fonte
+            final.write(finalText)
